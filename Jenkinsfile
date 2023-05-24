@@ -25,13 +25,17 @@ pipeline {
       stage("Deploy") {
           steps {
             git 'https://github.com/jglick/simple-maven-project-with-tests.git'  
-            sh "mvn -Dmaven.test.failure.ignore=true clean install"
+            //sh "mvn -Dmaven.test.failure.ignore=true clean install"
+            sh 'mvn deploy -DaltDeploymentRepository=nexus::default::http://localhost:8081/nexus/content/repositories/releases'
+
+            
             
           }
           post {
               success {
                   archiveArtifacts 'target/*.jar'
               }
+            
 
           }
 
